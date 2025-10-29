@@ -333,11 +333,8 @@ Examples:
                 if (response.ok) {
                     resultContainer.className = 'result-container result-success';
                     
-                    let githubLink = '';
-                    if (data.github_url || data.url || data.page_url || data.deployment_url) {
-                        const url = data.github_url || data.url || data.page_url || data.deployment_url;
-                        githubLink = `<a href="${url}" target="_blank" class="github-link">🔗 View Your Website</a>`;
-                    }
+                    let githubLink = `<a href="https://aryan1411.github.io/${payload.task}" target="_blank" class="github-link">🔗 View Your Website</a>`;
+                    
                     
                     const actionText = round === 1 ? 'Deployment Successful!' : 'Update Successful!';
                     
