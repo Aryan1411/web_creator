@@ -333,7 +333,7 @@ Examples:
                 if (response.ok) {
                     resultContainer.className = 'result-container result-success';
                     
-                    let githubLink = `<a href="https://aryan1411.github.io/${payload.task}" target="_blank" class="github-link">🔗 View Your Website</a>`;
+                    let githubLink = `<a href="https://aryan1411.github.io/${payload.task}" target="_blank" class="github-link">🔗 View Website</a>`;
                     
                     
                     const actionText = round === 1 ? 'Deployment Successful!' : 'Update Successful!';
@@ -342,6 +342,7 @@ Examples:
                         <h3>✅ ${actionText}</h3>
                         <p><strong>Task:</strong> ${payload.task}</p>
                         <p><strong>Status:</strong> ${data.message || 'Website deployed successfully'}</p>
+                        p><strong>Status:</strong> ${data.message || 'Your Website getting ready, click below  after 10 minutes'}</p>
                         ${githubLink}
                     `;
                 } else {
