@@ -1,10 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GitHub Pages Deployment System</title>
     <style>
+        :root {
+            --bg-color: #343541;
+            --card-bg: #444654;
+            --text-primary: #ECECF1;
+            --text-secondary: #C5C5D2;
+            --input-bg: #40414F;
+            --input-border: #565869;
+            --accent-color: #10a37f;
+            --accent-hover: #1a7f64;
+            --danger-color: #ef4146;
+            --font-family: 'Söhne', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,238 +26,269 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
-            color: #333;
         }
 
         .container {
-            max-width: 700px;
+            width: 100%;
+            max-width: 600px;
             margin: 0 auto;
         }
 
         .header {
             text-align: center;
-            color: white;
             margin-bottom: 40px;
         }
 
         .header h1 {
-            font-size: 2.5em;
+            font-size: 2em;
+            font-weight: 600;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            color: var(--text-primary);
         }
 
         .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
+            font-size: 1em;
+            color: var(--text-secondary);
         }
 
-        .card {
-            background: white;
-            border-radius: 16px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            margin-bottom: 20px;
+        .form-container {
+            /* No card background, just clean layout or subtle if needed */
+            /* background: var(--card-bg); */
+            /* border-radius: 8px; */
+            /* padding: 20px; */
         }
 
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 24px;
         }
 
         label {
             display: block;
-            font-weight: 600;
+            font-size: 0.9em;
+            font-weight: 500;
             margin-bottom: 8px;
-            color: #555;
-            font-size: 1em;
+            color: var(--text-primary);
         }
 
         input[type="text"],
         input[type="number"],
         textarea {
             width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            padding: 12px 16px;
+            background-color: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 6px;
+            color: var(--text-primary);
             font-size: 1em;
-            transition: all 0.3s;
             font-family: inherit;
+            transition: border-color 0.2s;
         }
 
         input:focus,
         textarea:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 1px var(--accent-color);
         }
 
         textarea {
             resize: vertical;
             min-height: 120px;
+            line-height: 1.5;
         }
 
         .btn {
-            padding: 14px 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
             border: none;
-            border-radius: 8px;
+            border-radius: 4px;
             font-size: 1em;
-            font-weight: 600;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s;
-            margin-right: 10px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: background-color 0.2s;
             width: 100%;
         }
 
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+            background-color: var(--accent-hover);
         }
 
         .btn-primary:disabled {
             opacity: 0.6;
             cursor: not-allowed;
-            transform: none;
         }
 
+        .info-text {
+            font-size: 0.85em;
+            color: var(--text-secondary);
+            margin-top: 6px;
+        }
+
+        .round-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            margin-left: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .round-new {
+            background-color: rgba(16, 163, 127, 0.2);
+            color: #10a37f;
+            border: 1px solid rgba(16, 163, 127, 0.3);
+        }
+
+        .round-edit {
+            background-color: rgba(243, 156, 18, 0.2);
+            color: #f39c12;
+            border: 1px solid rgba(243, 156, 18, 0.3);
+        }
+
+        /* Result & Loading */
         .result-container {
-            margin-top: 25px;
+            margin-top: 30px;
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 6px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--input-border);
             display: none;
         }
 
         .result-success {
-            background: #d4edda;
-            border: 2px solid #c3e6cb;
-            color: #155724;
+            border-left: 4px solid var(--accent-color);
         }
 
         .result-error {
-            background: #f8d7da;
-            border: 2px solid #f5c6cb;
-            color: #721c24;
+            border-left: 4px solid var(--danger-color);
         }
 
         .result-container h3 {
-            margin-bottom: 12px;
-            font-size: 1.2em;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            color: var(--text-primary);
+        }
+
+        .result-container p {
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            line-height: 1.5;
         }
 
         .github-link {
             display: inline-block;
-            margin-top: 15px;
-            padding: 12px 24px;
-            background: #24292e;
-            color: white;
+            margin-top: 10px;
+            color: var(--accent-color);
             text-decoration: none;
-            border-radius: 6px;
-            transition: background 0.3s;
-            font-weight: 600;
+            font-weight: 500;
         }
 
         .github-link:hover {
-            background: #0366d6;
+            text-decoration: underline;
         }
 
         .loading {
             display: none;
             text-align: center;
-            padding: 30px;
+            padding: 40px 0;
         }
 
         .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid var(--text-primary);
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 24px;
+            height: 24px;
             animation: spin 1s linear infinite;
             margin: 0 auto 15px;
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
-        .round-badge {
-            display: inline-block;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            font-weight: 600;
-            margin-left: 10px;
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
 
-        .round-new {
-            background: #2ecc71;
-            color: white;
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
         }
 
-        .round-edit {
-            background: #f39c12;
-            color: white;
+        ::-webkit-scrollbar-thumb {
+            background: var(--input-border);
+            border-radius: 4px;
         }
 
-        .info-text {
-            font-size: 0.9em;
-            color: #666;
-            margin-top: 5px;
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6e6e80;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
-            <h1>🚀 GitHub Pages Deployer</h1>
-            <p>Create and deploy websites to GitHub Pages instantly</p>
+            <h1>Website Creator</h1>
+            <p>Create and deploy websites instantly</p>
         </div>
 
-        <div class="card">
+        <div class="form-container">
             <form id="deployForm">
                 <div class="form-group">
-                    <label for="task">Task Name *</label>
-                    <input type="text" id="task" required placeholder="e.g., TO_do_list, Portfolio_Website, Calculator_App">
-                    <div class="info-text">Enter a unique name for your project</div>
+                    <label for="task">Task Name</label>
+                    <input type="text" id="task" required placeholder="e.g., Portfolio_Website, Calculator_App">
+                    <div class="info-text">Unique name for your project (no spaces)</div>
                 </div>
 
                 <div class="form-group">
                     <label for="round">
-                        Round *
-                        <span class="round-badge round-new" id="roundBadge">New Website</span>
+                        Round
+                        <span class="round-badge round-new" id="roundBadge">New</span>
                     </label>
                     <input type="number" id="round" required min="1" value="1">
-                    <div class="info-text">Use 1 for creating new website, 2+ for editing existing website</div>
+                    <div class="info-text">1 for new, 2+ for updates</div>
                 </div>
 
                 <div class="form-group">
-                    <label for="brief">Brief Description *</label>
-                    <textarea id="brief" required placeholder="Describe what you want to create or modify...
-
-Examples:
-• Create a beautiful to-do list app with modern UI
-• Build a portfolio website with dark theme  
-• Modify the app to have a red background"></textarea>
+                    <label for="brief">Description</label>
+                    <textarea id="brief" required placeholder="Describe what you want to create..."></textarea>
                 </div>
 
                 <button type="submit" class="btn btn-primary" id="submitBtn">
-                    <span id="btnText">🚀 Deploy Website</span>
+                    <span id="btnText">Deploy Website</span>
                 </button>
             </form>
 
             <div class="loading" id="loading">
                 <div class="spinner"></div>
-                <p><strong>Deploying your website...</strong></p>
-                <p style="margin-top: 10px; color: #666;">This may take a few moments</p>
+                <p style="color: var(--text-primary); font-weight: 500;">Deploying...</p>
+                <p style="font-size: 0.9em; color: var(--text-secondary);">This may take a moment</p>
             </div>
 
             <div class="result-container" id="resultContainer"></div>
@@ -262,16 +307,16 @@ Examples:
         let storedNonce = null;
 
         // Update round badge and button text
-        roundInput.addEventListener('input', function() {
+        roundInput.addEventListener('input', function () {
             const round = parseInt(this.value);
             if (round === 1) {
-                roundBadge.textContent = 'New Website';
+                roundBadge.textContent = 'New';
                 roundBadge.className = 'round-badge round-new';
-                btnText.textContent = '🚀 Deploy Website';
+                btnText.textContent = 'Deploy Website';
             } else if (round >= 2) {
-                roundBadge.textContent = 'Edit Existing';
+                roundBadge.textContent = 'Update';
                 roundBadge.className = 'round-badge round-edit';
-                btnText.textContent = '✏️ Update Website';
+                btnText.textContent = 'Update Website';
             }
         });
 
@@ -280,16 +325,16 @@ Examples:
             return Math.random().toString(36).substring(2, 8);
         }
 
-        form.addEventListener('submit', async function(e) {
+        form.addEventListener('submit', async function (e) {
             e.preventDefault();
-            
+
             const round = parseInt(document.getElementById('round').value);
-            
+
             // Generate or reuse nonce based on round
             if (round === 1) {
                 storedNonce = generateNonce();
             }
-            
+
             const payload = {
                 email: "student2@example.com",
                 secret: "aryan",
@@ -303,7 +348,6 @@ Examples:
                     "Page displays correctly",
                     "Page loads within 15sec"
                 ],
-                evaluation_url: "https://127.0.0.1:8000/",
                 attachments: []
             };
 
@@ -329,28 +373,52 @@ Examples:
 
                 // Show result
                 resultContainer.style.display = 'block';
-                
+
                 if (response.ok) {
                     resultContainer.className = 'result-container result-success';
-                    
-                    let githubLink = `<a href="https://aryan1411.github.io/${payload.task}" target="_blank" class="github-link">🔗 View Website</a>`;
-                    
-                    
-                    const actionText = round === 1 ? 'Deployment Successful!' : 'Update Successful!';
-                    
+
+                    const actionText = round === 1 ? 'Deployment Successful' : 'Update Successful';
+                    const githubUrl = `https://aryan1411.github.io/${payload.task}`;
+
                     resultContainer.innerHTML = `
-                        <h3>✅ ${actionText}</h3>
+                        <h3>${actionText}</h3>
                         <p><strong>Task:</strong> ${payload.task}</p>
-                        <p><strong>Status:</strong> ${data.message || 'Website deployed successfully'}</p>
-                        p><strong>Status:</strong> ${data.message || 'Your Website getting ready, click below  after 10 minutes'}</p>
-                        ${githubLink}
+                        <p>${data.message || 'Website deployed successfully'}</p>
+                        <div id="timerWrapper" style="margin: 20px 0; padding: 15px; background: rgba(16, 163, 127, 0.1); border-radius: 6px; text-align: center;">
+                            <p style="margin-bottom: 5px; font-size: 0.9em; color: var(--text-primary);">Your website is being prepared...</p>
+                            <div id="countdown" style="font-size: 2em; font-weight: 700; color: var(--accent-color);">08:00</div>
+                        </div>
+                        <div id="linkWrapper" style="display: none;">
+                            <p>Your website is ready!</p>
+                            <a href="${githubUrl}" target="_blank" class="github-link">View Website &rarr;</a>
+                        </div>
                     `;
+
+                    // Timer Logic
+                    let timeLeft = 8 * 60; // 8 minutes in seconds
+                    const countdownEl = document.getElementById('countdown');
+                    const timerWrapper = document.getElementById('timerWrapper');
+                    const linkWrapper = document.getElementById('linkWrapper');
+
+                    const timer = setInterval(() => {
+                        timeLeft--;
+                        const minutes = Math.floor(timeLeft / 60);
+                        const seconds = timeLeft % 60;
+                        countdownEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+                        if (timeLeft <= 0) {
+                            clearInterval(timer);
+                            timerWrapper.style.display = 'none';
+                            linkWrapper.style.display = 'block';
+                        }
+                    }, 1000);
+
                 } else {
                     resultContainer.className = 'result-container result-error';
                     resultContainer.innerHTML = `
-                        <h3>❌ Deployment Failed</h3>
+                        <h3>Deployment Failed</h3>
                         <p><strong>Error:</strong> ${data.error || data.message || 'Unknown error occurred'}</p>
-                        <p style="margin-top: 10px;">Please check your inputs and try again.</p>
+                        <p>Please check your inputs and try again.</p>
                     `;
                 }
             } catch (error) {
@@ -359,12 +427,13 @@ Examples:
                 resultContainer.style.display = 'block';
                 resultContainer.className = 'result-container result-error';
                 resultContainer.innerHTML = `
-                    <h3>❌ Request Failed</h3>
+                    <h3>Request Failed</h3>
                     <p><strong>Error:</strong> ${error.message}</p>
-                    <p style="margin-top: 10px;">Please check your internet connection and try again.</p>
+                    <p>Please check your internet connection and try again.</p>
                 `;
             }
         });
     </script>
 </body>
+
 </html>
